@@ -1,6 +1,5 @@
 package com.eyeofender.serversigns;
 
-import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Map;
 
@@ -67,9 +66,7 @@ public class ConfigurationData {
         for (String servername : server.getKeys(false)) {
             ConfigurationSection cs = server.getConfigurationSection(servername);
             String displayname = cs.getString("displayname");
-            String[] addre = cs.getString("address").split(":");
-            InetSocketAddress address = new InetSocketAddress(addre[0], Integer.parseInt(addre[1]));
-            ServerInfo si = new ServerInfo(servername, address, displayname);
+            ServerInfo si = new ServerInfo(servername, displayname);
             list.add(si);
         }
         return list;

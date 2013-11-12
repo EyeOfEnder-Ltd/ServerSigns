@@ -6,8 +6,9 @@ cooldown: 2000
 
 servers:
   hub:
-    address: '192.99.1.39:25565'
-    displayname: '&6AG Hub'
+    displayname: '&5AG Hub'
+  ag1:
+    displayname: '&3AG 1'
 
 layouts:
   default:
@@ -15,8 +16,8 @@ layouts:
     layout:
       - '%displayname%'
       - ''
+      - '&online%players%'
       - '%isonline%'
-      - '&online%numpl%/%maxpl%'
     online: '&aOnline'
     offline: '&cOffline'
     offline-int: '-'

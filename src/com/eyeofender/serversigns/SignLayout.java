@@ -18,28 +18,14 @@ class SignLayout {
 
     public List<String> parseLayout(ServerInfo sinfo) {
         List<String> laa = Lists.newArrayList();
-        int motdCount = 0;
         for (String line : this.lines) {
             line = line.replace("%displayname%", sinfo.getDisplayname());
+            line = line.replace("%players%", String.valueOf(sinfo.getOnlinePlayers()) + " Players");
             if (sinfo.isOnline()) {
                 line = line.replace("%isonline%", this.online);
-                line = line.replace("%numpl%", String.valueOf(sinfo.getPlayersOnline()));
-                line = line.replace("%maxpl%", String.valueOf(sinfo.getMaxPlayers()));
-                if (line.contains("%motd%")) if (motdCount < sinfo.getMotd().length) {
-                    String motd = sinfo.getMotd()[motdCount];
-                    if (motd != null) {
-                        line = line.replace("%motd%", motd);
-                    }
-                    motdCount++;
-                } else {
-                    line = line.replace("%motd%", "");
-                }
                 line = line.replace("&online", ChatColor.GREEN.toString());
             } else {
                 line = line.replace("%isonline%", this.offline);
-                line = line.replace("%numpl%", this.offlineInteger);
-                line = line.replace("%maxpl%", this.offlineInteger);
-                line = line.replace("%motd%", "");
                 line = line.replace("&online", ChatColor.RED.toString());
             }
 

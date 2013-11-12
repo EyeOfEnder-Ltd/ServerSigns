@@ -13,11 +13,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.eyeofender.serversigns.converter.Converter;
-import com.eyeofender.serversigns.ping.Ping;
+import com.eyeofender.serversigns.ping.BungeePing;
 
 public class ServerSigns extends JavaPlugin {
     private List<TeleportSign> signs;
-    private Ping ping;
     private ConfigurationData configData;
     private static ServerSigns instance;
 
@@ -36,9 +35,22 @@ public class ServerSigns extends JavaPlugin {
         loadSigns();
 
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+
+        final BungeePing bPing = new BungeePing(this);
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        this.ping = new Ping(this);
-        Bukkit.getScheduler().runTaskAsynchronously(this, this.ping);
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", bPing);
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                bPing.pingAll();
+            }
+        }, 20, getConfigData().getInterval() * 20);
+    }
+
+    @Override
+    public void onDisable() {
+        Bukkit.getScheduler().cancelTasks(this);
     }
 
     public List<Class<?>> getDatabaseClasses() {

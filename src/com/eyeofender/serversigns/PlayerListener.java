@@ -68,7 +68,7 @@ class PlayerListener implements Listener {
                 && (!hasCooldown(e.getPlayer().getName()))) for (TeleportSign ts : this.plugin.getSigns())
             if ((ts != null) && (ts.getLocation().equals(e.getClickedBlock().getLocation()))) {
                 ServerInfo info = this.plugin.getConfigData().getServer(ts.getServer());
-                if ((info != null) && (this.plugin.getConfigData().getLayout(ts.getLayout()).isTeleport())) if (info.isOnline()) {
+                if ((info != null) && (this.plugin.getConfigData().getLayout(ts.getLayout()).isTeleport())) {
                     ByteArrayOutputStream b = new ByteArrayOutputStream();
                     DataOutputStream out = new DataOutputStream(b);
                     try {
