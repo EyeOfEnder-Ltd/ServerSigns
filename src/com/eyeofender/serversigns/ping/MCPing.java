@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
 import java.nio.charset.Charset;
 
 import org.bukkit.plugin.Plugin;
@@ -104,12 +103,9 @@ public final class MCPing {
             socket.close();
 
             return true;
-        } catch (SocketException exception) {
+        } catch (Exception exception) {
             plugin.getLogger().warning("Could not ping " + address + "!");
-            exception.printStackTrace();
-            return false;
-        } catch (IOException exception) {
-            exception.printStackTrace();
+            exception.getMessage();
             return false;
         }
     }

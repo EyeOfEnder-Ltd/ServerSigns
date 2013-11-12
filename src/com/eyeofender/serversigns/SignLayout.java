@@ -34,12 +34,15 @@ class SignLayout {
                 } else {
                     line = line.replace("%motd%", "");
                 }
+                line = line.replace("&online", ChatColor.GREEN.toString());
             } else {
                 line = line.replace("%isonline%", this.offline);
                 line = line.replace("%numpl%", this.offlineInteger);
                 line = line.replace("%maxpl%", this.offlineInteger);
                 line = line.replace("%motd%", "");
+                line = line.replace("&online", ChatColor.RED.toString());
             }
+
             laa.add(ChatColor.translateAlternateColorCodes('&', line));
         }
         return laa;

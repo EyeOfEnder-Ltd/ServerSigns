@@ -1,7 +1,6 @@
 offline-message: '&cServer is offline!'
 show-offline-message: true
 interval: 5
-sign-updates: 20
 timeout: 1500
 cooldown: 2000
 
@@ -14,20 +13,10 @@ layouts:
   default:
     teleport: true
     layout:
-      - 'Join'
       - '%displayname%'
-      - '%numpl%/%maxpl%'
+      - ''
       - '%isonline%'
-    online: '&aOnline'
-    offline: '&cOffline'
-    offline-int: '-'
-  info:
-    teleport: false
-    layout:
-      - 'Archer Games'
-      - '%displayname%'
-      - '&c%numpl%&a/&c%maxpl%'
-      - '%isonline%'
+      - '&online%numpl%/%maxpl%'
     online: '&aOnline'
     offline: '&cOffline'
     offline-int: '-'

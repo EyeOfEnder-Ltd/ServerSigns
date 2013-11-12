@@ -19,7 +19,6 @@ public class ConfigurationData {
     private Map<String, SignLayout> signLayouts;
     private int interval;
     private int timeout;
-    private int signsPerTick;
     private boolean showOfflineMsg;
     private int cooldown;
 
@@ -36,7 +35,6 @@ public class ConfigurationData {
         this.showOfflineMsg = this.config.getBoolean("show-offline-message");
         this.interval = this.config.getInt("interval");
         this.timeout = this.config.getInt("timeout");
-        this.signsPerTick = this.config.getInt("sign-updates");
         this.cooldown = this.config.getInt("cooldown");
         this.signLayouts = loadLayouts();
         this.servers = loadServers();
@@ -118,10 +116,6 @@ public class ConfigurationData {
         return this.timeout;
     }
 
-    public int getSignsPerTick() {
-        return this.signsPerTick;
-    }
-
     public boolean isShowOfflineMsg() {
         return this.showOfflineMsg;
     }
@@ -158,10 +152,6 @@ public class ConfigurationData {
         this.timeout = timeout;
     }
 
-    public void setSignsPerTick(int signsPerTick) {
-        this.signsPerTick = signsPerTick;
-    }
-
     public void setShowOfflineMsg(boolean showOfflineMsg) {
         this.showOfflineMsg = showOfflineMsg;
     }
@@ -192,7 +182,6 @@ public class ConfigurationData {
         if (this$signLayouts == null ? other$signLayouts != null : !this$signLayouts.equals(other$signLayouts)) return false;
         if (getInterval() != other.getInterval()) return false;
         if (getTimeout() != other.getTimeout()) return false;
-        if (getSignsPerTick() != other.getSignsPerTick()) return false;
         if (isShowOfflineMsg() != other.isShowOfflineMsg()) return false;
         return getCooldown() == other.getCooldown();
     }
@@ -215,7 +204,6 @@ public class ConfigurationData {
         result = result * 31 + ($signLayouts == null ? 0 : $signLayouts.hashCode());
         result = result * 31 + getInterval();
         result = result * 31 + getTimeout();
-        result = result * 31 + getSignsPerTick();
         result = result * 31 + (isShowOfflineMsg() ? 1231 : 1237);
         result = result * 31 + getCooldown();
         return result;
@@ -223,6 +211,6 @@ public class ConfigurationData {
 
     public String toString() {
         return "ConfigurationData(plugin=" + getPlugin() + ", config=" + getConfig() + ", offlineMessage=" + getOfflineMessage() + ", servers=" + getServers() + ", signLayouts=" + getSignLayouts()
-                + ", interval=" + getInterval() + ", timeout=" + getTimeout() + ", signsPerTick=" + getSignsPerTick() + ", showOfflineMsg=" + isShowOfflineMsg() + ", cooldown=" + getCooldown() + ")";
+                + ", interval=" + getInterval() + ", timeout=" + getTimeout() + ", showOfflineMsg=" + isShowOfflineMsg() + ", cooldown=" + getCooldown() + ")";
     }
 }

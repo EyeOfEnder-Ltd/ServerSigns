@@ -1,7 +1,6 @@
 package com.eyeofender.serversigns;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -21,8 +20,6 @@ public class ServerSigns extends JavaPlugin {
     private Ping ping;
     private ConfigurationData configData;
     private static ServerSigns instance;
-    private long lastUpdate = System.currentTimeMillis();
-    private int ticksAhead = 0;
 
     public ServerSigns() {
         instance = this;
@@ -52,23 +49,6 @@ public class ServerSigns extends JavaPlugin {
 
     public void loadSigns() {
         this.signs = getDatabase().find(TeleportSign.class).findList();
-    }
-
-    public void updateSigns(final List<TeleportSign> list) {
-        long now = System.currentTimeMillis();
-        if (now - this.lastUpdate < 50L) {
-            this.ticksAhead += 1;
-        } else {
-            this.ticksAhead = 1;
-        }
-        this.lastUpdate = now;
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-            public void run() {
-                Iterator<TeleportSign> tempIterator = list.iterator();
-                while (tempIterator.hasNext())
-                    ((TeleportSign) tempIterator.next()).updateSign();
-            }
-        }, this.ticksAhead);
     }
 
     private void setupDB() {
