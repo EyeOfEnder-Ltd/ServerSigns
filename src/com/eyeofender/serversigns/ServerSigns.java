@@ -39,9 +39,8 @@ public class ServerSigns extends JavaPlugin {
         loadSigns();
 
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.ping = new Ping(this);
-
         Bukkit.getScheduler().runTaskAsynchronously(this, this.ping);
     }
 
@@ -94,10 +93,6 @@ public class ServerSigns extends JavaPlugin {
 
     public List<TeleportSign> getSigns() {
         return this.signs;
-    }
-
-    public Ping getPing() {
-        return this.ping;
     }
 
     public ConfigurationData getConfigData() {

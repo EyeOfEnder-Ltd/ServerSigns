@@ -5,13 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.charset.Charset;
-import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 
 public final class MCPing {
     private InetSocketAddress address;
@@ -24,21 +23,25 @@ public final class MCPing {
     private int playersOnline = -1;
     private int maxPlayers = -1;
 
-    public boolean fetchData() {
+    public boolean fetchData(Plugin plugin) {
         try {
             Socket socket = new Socket();
+            OutputStream outputStream;
+            DataOutputStream dataOutputStream;
+            InputStream inputStream;
+            InputStreamReader inputStreamReader;
 
-            socket.setSoTimeout(this.timeout);
+            socket.setSoTimeout(timeout);
 
-            socket.connect(this.address, getTimeout());
+            socket.connect(address, getTimeout());
 
-            OutputStream outputStream = socket.getOutputStream();
-            DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+            outputStream = socket.getOutputStream();
+            dataOutputStream = new DataOutputStream(outputStream);
 
-            InputStream inputStream = socket.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-16BE"));
+            inputStream = socket.getInputStream();
+            inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-16BE"));
 
-            dataOutputStream.write(new byte[] { -2, 1, -6 });
+            dataOutputStream.write(new byte[] { (byte) 0xFE, (byte) 0x01, (byte) 0xFA });
 
             dataOutputStream.write("MC|PingHost".getBytes("UTF-16BE"));
             dataOutputStream.writeShort(this.address.getHostName().length() * 2 + 7);
@@ -53,7 +56,7 @@ public final class MCPing {
                 throw new IOException("Premature end of stream.");
             }
 
-            if (packetId != 255) {
+            if (packetId != 0xFF) {
                 throw new IOException("Invalid packet ID (" + packetId + ").");
             }
 
@@ -75,33 +78,40 @@ public final class MCPing {
 
             String string = new String(chars);
 
-            if (string.startsWith("ยง")) {
-                String[] data = string.split("");
+            if (string.startsWith("ง")) {
+                String[] data = string.split("\0");
 
-                this.pingVersion = Integer.parseInt(data[0].substring(1));
-                this.protocolVersion = Integer.parseInt(data[1]);
-                this.gameVersion = data[2];
-                this.motd = data[3];
-                this.playersOnline = Integer.parseInt(data[4]);
-                this.maxPlayers = Integer.parseInt(data[5]);
+                pingVersion = Integer.parseInt(data[0].substring(1));
+                protocolVersion = Integer.parseInt(data[1]);
+                gameVersion = data[2];
+                motd = data[3];
+                playersOnline = Integer.parseInt(data[4]);
+                maxPlayers = Integer.parseInt(data[5]);
             } else {
-                String[] data = string.split("ยง");
+                String[] data = string.split("ง");
 
-                this.motd = data[0];
-                this.playersOnline = Integer.parseInt(data[1]);
-                this.maxPlayers = Integer.parseInt(data[2]);
+                motd = data[0];
+                playersOnline = Integer.parseInt(data[1]);
+                maxPlayers = Integer.parseInt(data[2]);
             }
+
             dataOutputStream.close();
             outputStream.close();
 
             inputStreamReader.close();
             inputStream.close();
+
             socket.close();
-        } catch (Exception exception) {
-            if (!(exception instanceof ConnectException)) Bukkit.getLogger().log(Level.SEVERE, "Error fetching data from server " + this.address.toString(), exception);
+
+            return true;
+        } catch (SocketException exception) {
+            plugin.getLogger().warning("Could not ping " + address + "!");
+            exception.printStackTrace();
+            return false;
+        } catch (IOException exception) {
+            exception.printStackTrace();
             return false;
         }
-        return true;
     }
 
     public InetSocketAddress getAddress() {

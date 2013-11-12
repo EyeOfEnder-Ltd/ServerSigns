@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
-import com.eyeofender.serversigns.TeleportSign;
 import com.eyeofender.serversigns.ServerSigns;
+import com.eyeofender.serversigns.TeleportSign;
 import com.google.common.collect.Lists;
 
 public class Ping implements Runnable {
@@ -21,20 +21,20 @@ public class Ping implements Runnable {
     }
 
     public void run() {
-        for (ServerInfo info : this.plugin.getConfigData().getServers()) {
-            this.mcping.setAddress(info.getAddress());
-            this.mcping.setTimeout(this.plugin.getConfigData().getTimeout());
-            if (this.mcping.fetchData()) {
+        for (ServerInfo info : plugin.getConfigData().getServers()) {
+            mcping.setAddress(info.getAddress());
+            mcping.setTimeout(plugin.getConfigData().getTimeout());
+            if (mcping.fetchData(plugin)) {
                 info.setOnline(true);
                 info.setMotd(this.mcping.getMotd().split("(?<=\\G.{15})"));
-                info.setPlayersOnline(this.mcping.getPlayersOnline());
-                info.setMaxPlayers(this.mcping.getMaxPlayers());
+                info.setPlayersOnline(mcping.getPlayersOnline());
+                info.setMaxPlayers(mcping.getMaxPlayers());
             } else {
                 info.setOnline(false);
                 info.setMotd(null);
             }
             List<TeleportSign> tempList = Lists.newArrayList();
-            Iterator<TeleportSign> iterator = this.plugin.getSigns().iterator();
+            Iterator<TeleportSign> iterator = plugin.getSigns().iterator();
             while (iterator.hasNext()) {
                 TeleportSign ts = (TeleportSign) iterator.next();
                 if (ts.getServer().equals(info.getName())) {
@@ -43,14 +43,14 @@ public class Ping implements Runnable {
             }
             int size = tempList.size();
             int offset = 0;
-            while (size > this.signsPerTick) {
-                this.plugin.updateSigns(tempList.subList(offset, offset + this.signsPerTick));
-                size -= this.signsPerTick;
-                offset += this.signsPerTick;
+            while (size > signsPerTick) {
+                plugin.updateSigns(tempList.subList(offset, offset + this.signsPerTick));
+                size -= signsPerTick;
+                offset += signsPerTick;
             }
-            this.plugin.updateSigns(tempList.subList(offset, offset + size));
+            plugin.updateSigns(tempList.subList(offset, offset + size));
         }
-        Bukkit.getScheduler().runTaskLaterAsynchronously(this.plugin, this, this.plugin.getConfigData().getInterval() * 20);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, this, plugin.getConfigData().getInterval() * 20);
     }
 
 }
