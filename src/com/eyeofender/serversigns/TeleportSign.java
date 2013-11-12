@@ -78,7 +78,7 @@ public class TeleportSign {
                     }
                     s.update();
                 } else {
-                    Bukkit.getLogger().log(Level.WARNING, "[TeleportSigns] can't find layout '{0}'", this.layout);
+                    Bukkit.getLogger().log(Level.WARNING, "[ServerSigns] can't find layout '{0}'", this.layout);
                 }
             }
         }

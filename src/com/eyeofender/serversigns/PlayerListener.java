@@ -29,7 +29,7 @@ class PlayerListener implements Listener {
 
     @EventHandler
     private void onSignChange(SignChangeEvent e) {
-        if ((e.getLine(0).equalsIgnoreCase("[ServerSign]")) && (e.getPlayer().hasPermission("serversigns.create"))) {
+        if ((e.getLine(0).equalsIgnoreCase("[Server]")) && (e.getPlayer().hasPermission("serversigns.create"))) {
             ServerInfo info = this.plugin.getConfigData().getServer(e.getLine(1));
             String layout = e.getLine(2);
             if (layout.equalsIgnoreCase("")) {

@@ -15,10 +15,11 @@ import com.eyeofender.serversigns.ServerSigns;
 public class Converter {
     public static void convert(ServerSigns plugin) {
         Logger log = Bukkit.getLogger();
-        File file = new File(plugin.getDataFolder().getAbsolutePath() + "/TeleportSigns.db");
+        String location = plugin.getDataFolder().getAbsolutePath() + File.separator + plugin.getName() + ".db";
+        File file = new File(location);
         if (file.exists()) try {
             Class.forName("org.sqlite.JDBC");
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().getAbsolutePath() + "/TeleportSigns.db");
+            Connection conn = DriverManager.getConnection(location);
             Statement stat = conn.createStatement();
             try {
                 stat.execute("ALTER TABLE lobby_teleportsigns ADD layout CHAR(255)");
