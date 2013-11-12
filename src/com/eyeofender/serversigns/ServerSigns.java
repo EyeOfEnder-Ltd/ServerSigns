@@ -81,10 +81,14 @@ public class ServerSigns extends JavaPlugin {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("tsreload")) {
-            if (sender.hasPermission("teleportsigns.reload")) {
-                sender.sendMessage(ChatColor.GREEN + "Reloading configuration from disk");
-                getConfigData().reloadConfig();
+        if (command.getName().equalsIgnoreCase("serversigns")) {
+            if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
+                if (sender.hasPermission("serversigns.reload")) {
+                    sender.sendMessage(ChatColor.GREEN + "Reloading configuration from disk");
+                    getConfigData().reloadConfig();
+                }
+            } else {
+                sender.sendMessage("Running " + getDescription().getFullName());
             }
             return true;
         }

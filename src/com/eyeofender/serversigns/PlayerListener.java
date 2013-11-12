@@ -29,7 +29,7 @@ class PlayerListener implements Listener {
 
     @EventHandler
     private void onSignChange(SignChangeEvent e) {
-        if ((e.getLine(0).equalsIgnoreCase("[tsigns]")) && (e.getPlayer().hasPermission("teleportsigns.create"))) {
+        if ((e.getLine(0).equalsIgnoreCase("[ServerSign]")) && (e.getPlayer().hasPermission("serversigns.create"))) {
             ServerInfo info = this.plugin.getConfigData().getServer(e.getLine(1));
             String layout = e.getLine(2);
             if (layout.equalsIgnoreCase("")) {
@@ -54,7 +54,7 @@ class PlayerListener implements Listener {
             TeleportSign ts = (TeleportSign) this.plugin.getDatabase().find(TeleportSign.class).where().eq("x", Double.valueOf(e.getBlock().getLocation().getX()))
                     .eq("y", Double.valueOf(e.getBlock().getLocation().getY())).eq("z", Double.valueOf(e.getBlock().getLocation().getZ())).findUnique();
 
-            if ((ts != null) && (e.getPlayer().hasPermission("teleportsigns.destroy"))) {
+            if ((ts != null) && (e.getPlayer().hasPermission("serversigns.destroy"))) {
                 this.plugin.getDatabase().delete(ts);
                 this.plugin.loadSigns();
                 e.getPlayer().sendMessage(ChatColor.GREEN + "Sign destroyed.");
@@ -64,7 +64,7 @@ class PlayerListener implements Listener {
 
     @EventHandler
     private void onClick(PlayerInteractEvent e) {
-        if ((e.hasBlock()) && ((e.getClickedBlock().getState() instanceof Sign)) && (e.getAction() == Action.RIGHT_CLICK_BLOCK) && (e.getPlayer().hasPermission("teleportsigns.use"))
+        if ((e.hasBlock()) && ((e.getClickedBlock().getState() instanceof Sign)) && (e.getAction() == Action.RIGHT_CLICK_BLOCK) && (e.getPlayer().hasPermission("serversigns.use"))
                 && (!hasCooldown(e.getPlayer().getName()))) for (TeleportSign ts : this.plugin.getSigns())
             if ((ts != null) && (ts.getLocation().equals(e.getClickedBlock().getLocation()))) {
                 ServerInfo info = this.plugin.getConfigData().getServer(ts.getServer());

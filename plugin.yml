@@ -1,27 +1,26 @@
 name: ServerSigns
-version: 1.3.2
+version: 1.4.0
 description: Server Teleport Signs
-author: zh32
+author: LimeByte
 
 main: com.eyeofender.serversigns.ServerSigns
 
 database: true
 
 commands:
-  tsreload:
-    description: Reload config from disk
-    permission: teleportsigns.reload
+  serversigns:
+    description: Various ServerSigns commands
 
 permissions:
-  teleportsigns.use:
-    description: Use TeleportSigns
+  serversigns.use:
+    description: Use ServerSigns
     default: true
-  teleportsigns.create:
-    description: Create TeleportSigns
+  serversigns.create:
+    description: Create ServerSigns
     default: op
-  teleportsigns.destroy:
-    description: Destroy TeleportSigns
+  serversigns.destroy:
+    description: Destroy ServerSigns
     default: op
-  teleportsigns.reload:
+  serversigns.reload:
     description: Reload config from disk
     default: op
