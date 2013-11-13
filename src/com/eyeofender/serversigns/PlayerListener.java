@@ -19,6 +19,8 @@ import com.eyeofender.serversigns.ping.ServerInfo;
 import com.google.common.collect.Maps;
 
 class PlayerListener implements Listener {
+    private static final String JOIN_PREFIX = ChatColor.GOLD + "< " + ChatColor.BLUE + "Join" + ChatColor.GOLD + " > " + ChatColor.RESET;
+
     private ServerSigns plugin;
     private Map<String, Long> cooldowns;
 
@@ -45,6 +47,12 @@ class PlayerListener implements Listener {
                 }
             } else
                 e.getPlayer().sendMessage(ChatColor.RED + "Can't find this layout!");
+        } else {
+            if (e.isCancelled()) return;
+            e.setLine(0, ChatColor.translateAlternateColorCodes('&', e.getLine(0)));
+            e.setLine(1, ChatColor.translateAlternateColorCodes('&', e.getLine(1)));
+            e.setLine(2, ChatColor.translateAlternateColorCodes('&', e.getLine(2)));
+            e.setLine(3, ChatColor.translateAlternateColorCodes('&', e.getLine(3)));
         }
     }
 
@@ -67,7 +75,9 @@ class PlayerListener implements Listener {
         if ((e.hasBlock()) && ((e.getClickedBlock().getState() instanceof Sign)) && (e.getAction() == Action.RIGHT_CLICK_BLOCK) && (e.getPlayer().hasPermission("serversigns.use"))
                 && (!hasCooldown(e.getPlayer().getName()))) for (TeleportSign ts : this.plugin.getSigns())
             if ((ts != null) && (ts.getLocation().equals(e.getClickedBlock().getLocation()))) {
-                ServerInfo info = this.plugin.getConfigData().getServer(ts.getServer());
+
+                String server = ts.getServer();
+                ServerInfo info = this.plugin.getConfigData().getServer(server);
                 if ((info != null) && (this.plugin.getConfigData().getLayout(ts.getLayout()).isTeleport()) && info.isOnline()) {
                     ByteArrayOutputStream b = new ByteArrayOutputStream();
                     DataOutputStream out = new DataOutputStream(b);
@@ -78,7 +88,9 @@ class PlayerListener implements Listener {
                         Bukkit.getLogger().info("You'll never see me!");
                     }
                     e.getPlayer().sendPluginMessage(this.plugin, "BungeeCord", b.toByteArray());
-                    Bukkit.broadcastMessage(ChatColor.GRAY + e.getPlayer().getDisplayName() + ChatColor.GRAY + " joined " + info.getDisplayname() + ChatColor.GRAY + ".");
+
+                    String message = JOIN_PREFIX + e.getPlayer().getDisplayName() + "&7 joined " + info.getDisplayname() + "&7.";
+                    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
                 } else if (this.plugin.getConfigData().isShowOfflineMsg()) {
                     e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', this.plugin.getConfigData().getOfflineMessage()));
                 }
