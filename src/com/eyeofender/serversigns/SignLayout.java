@@ -22,10 +22,10 @@ class SignLayout {
             line = line.replace("%displayname%", sinfo.getDisplayname());
             line = line.replace("%players%", String.valueOf(sinfo.getOnlinePlayers()) + " Players");
             if (sinfo.isOnline()) {
-                line = line.replace("%isonline%", this.online);
+                line = line.replace("%status%", this.online);
                 line = line.replace("&online", ChatColor.GREEN.toString());
             } else {
-                line = line.replace("%isonline%", this.offline);
+                line = line.replace("%status%", this.offline);
                 line = line.replace("&online", ChatColor.RED.toString());
             }
 

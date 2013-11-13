@@ -66,6 +66,8 @@ public class BungeePing implements PluginMessageListener {
             subchannel = in.readUTF();
             if (subchannel.equals("PlayerCount")) {
                 plugin.getConfigData().getServer(in.readUTF()).setOnlinePlayers(in.readInt());
+            } else {
+                plugin.getLogger().warning("Failed to interperet message for channel " + channel + "!");
             }
         } catch (Exception e) {
             plugin.getLogger().warning("Failed to interperet message!");

@@ -17,7 +17,7 @@ layouts:
       - '%displayname%'
       - ''
       - '&online%players%'
-      - '%isonline%'
+      - '%status%'
     online: '&aOnline'
     offline: '&cOffline'
     offline-int: '-'

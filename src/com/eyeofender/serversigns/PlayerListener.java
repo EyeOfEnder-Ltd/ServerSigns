@@ -68,7 +68,7 @@ class PlayerListener implements Listener {
                 && (!hasCooldown(e.getPlayer().getName()))) for (TeleportSign ts : this.plugin.getSigns())
             if ((ts != null) && (ts.getLocation().equals(e.getClickedBlock().getLocation()))) {
                 ServerInfo info = this.plugin.getConfigData().getServer(ts.getServer());
-                if ((info != null) && (this.plugin.getConfigData().getLayout(ts.getLayout()).isTeleport())) {
+                if ((info != null) && (this.plugin.getConfigData().getLayout(ts.getLayout()).isTeleport()) && info.isOnline()) {
                     ByteArrayOutputStream b = new ByteArrayOutputStream();
                     DataOutputStream out = new DataOutputStream(b);
                     try {
@@ -78,6 +78,7 @@ class PlayerListener implements Listener {
                         Bukkit.getLogger().info("You'll never see me!");
                     }
                     e.getPlayer().sendPluginMessage(this.plugin, "BungeeCord", b.toByteArray());
+                    Bukkit.broadcastMessage(ChatColor.GRAY + e.getPlayer().getDisplayName() + ChatColor.GRAY + " joined " + info.getDisplayname() + ChatColor.GRAY + ".");
                 } else if (this.plugin.getConfigData().isShowOfflineMsg()) {
                     e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', this.plugin.getConfigData().getOfflineMessage()));
                 }
