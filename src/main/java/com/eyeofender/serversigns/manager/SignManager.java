@@ -91,7 +91,10 @@ public class SignManager {
         config = YamlConfiguration.loadConfiguration(configFile);
 
         signs.clear();
-        for (String location : config.getConfigurationSection("signs").getKeys(false)) {
+        ConfigurationSection section = config.getConfigurationSection("signs");
+        if (section == null) return;
+
+        for (String location : section.getKeys(false)) {
             String server = config.getString(location);
             if (server == null) continue;
             signs.put(location, server);

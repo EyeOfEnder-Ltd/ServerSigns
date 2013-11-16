@@ -32,12 +32,7 @@ public class ServerSigns extends JavaPlugin {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         ping = new Ping(this);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            @Override
-            public void run() {
-                ping.pingAll();
-            }
-        }, 20, getConfigManager().getInterval() * 20);
+        ping.startPingTask();
     }
 
     @Override
