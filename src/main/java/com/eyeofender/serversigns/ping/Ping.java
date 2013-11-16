@@ -60,6 +60,7 @@ public class Ping {
         info.setDescription(responce.getDescription());
         info.setOnlinePlayers(players.getOnline());
         info.setMaxPlayers(players.getMax());
+        info.generateLines();
     }
 
 }

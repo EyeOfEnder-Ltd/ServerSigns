@@ -48,13 +48,11 @@ public class SignManager {
         if (!(b.getState() instanceof Sign)) return;
 
         Sign s = (Sign) b.getState();
-        String online = info.isOnline() ? ChatColor.GREEN.toString() : ChatColor.DARK_RED.toString();
-        String players = online + info.getOnlinePlayers() + "/" + info.getMaxPlayers();
 
         s.setLine(0, info.getDisplayName());
         s.setLine(1, "");
-        s.setLine(2, players);
-        s.setLine(3, info.getDescription());
+        s.setLine(2, info.getThirdLine());
+        s.setLine(3, info.getFourthLine());
 
         s.update();
     }

@@ -16,6 +16,9 @@ public class ServerInfo {
     private int maxPlayers;
     private String description;
 
+    private String thirdLine;
+    private String fourthLine;
+
     public ServerInfo(String name, String displayName, InetSocketAddress address) {
         this.name = name;
         this.displayName = ChatColor.translateAlternateColorCodes('&', displayName);
@@ -35,6 +38,7 @@ public class ServerInfo {
             setOnlinePlayers(0);
             setMaxPlayers(0);
             setDescription(OFFLINE);
+            generateLines();
         }
     }
 
@@ -76,6 +80,29 @@ public class ServerInfo {
 
     public InetSocketAddress getAddress() {
         return address;
+    }
+
+    public void generateLines() {
+        thirdLine = "";
+        fourthLine = description.split(" |")[0];
+
+        if (online) {
+            if (onlinePlayers == 0) {
+                thirdLine = ChatColor.GREEN + "Empty";
+            } else if (onlinePlayers == maxPlayers) {
+                thirdLine = ChatColor.DARK_RED + "Full";
+            } else {
+                thirdLine = ChatColor.GREEN + "" + onlinePlayers + " Players";
+            }
+        }
+    }
+
+    public String getThirdLine() {
+        return thirdLine;
+    }
+
+    public String getFourthLine() {
+        return fourthLine;
     }
 
 }
