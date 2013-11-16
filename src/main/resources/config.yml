@@ -1,0 +1,57 @@
+interval: 5
+timeout: 1500
+cooldown: 2000
+
+servers:
+    hub:
+        displayname: '&5AG Hub'
+        hostname: localhost
+        port: 25565
+    ag1:
+        displayname: '&1AG 1'
+        hostname: localhost
+        port: 20000
+    ag2:
+        displayname: '&1AG 2'
+        hostname: localhost
+        port: 20003
+    ag3:
+        displayname: '&1AG 3'
+        hostname: localhost
+        port: 20004
+    ag4:
+        displayname: '&1AG 4'
+        hostname: localhost
+        port: 20005
+    ag5:
+        displayname: '&1AG 5'
+        hostname: localhost
+        port: 20006
+    ag6:
+        displayname: '&1AG 6'
+        hostname: localhost
+        port: 20007
+    ag7:
+        displayname: '&1AG 7'
+        hostname: localhost
+        port: 20008
+    ag8:
+        displayname: '&1AG 8'
+        hostname: localhost
+        port: 20009
+    ag9:
+        displayname: '&1AG 9'
+        hostname: localhost
+        port: 20010
+    ag10:
+        displayname: '&1AG 10'
+        hostname: localhost
+        port: 20011
+    ag11:
+        displayname: '&1AG 11'
+        hostname: localhost
+        port: 20012
+    ag12:
+        displayname: '&1AG 12'
+        hostname: localhost
+        port: 20013

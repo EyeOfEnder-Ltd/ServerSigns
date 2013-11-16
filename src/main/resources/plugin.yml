@@ -1,11 +1,10 @@
-name: ServerSigns
-version: 1.4.8
-description: Server Teleport Signs
+name: ${project.name}
 author: LimeByte
+version: ${project.version}
+description: ${project.description}
 
-main: com.eyeofender.serversigns.ServerSigns
-
-database: true
+main: ${project.groupId}.${project.artifactId}.ServerSigns
+load: POSTWORLD
 
 commands:
   serversigns:
@@ -23,4 +22,7 @@ permissions:
     default: op
   serversigns.reload:
     description: Reload config from disk
+    default: op
+  serversigns.ping:
+    description: Ping a server
     default: op
