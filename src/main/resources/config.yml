@@ -4,7 +4,7 @@ cooldown: 2000
 
 servers:
     hub:
-        displayname: '&5AG Hub'
+        displayname: '&5Hub'
         hostname: localhost
         port: 25565
     ag1:

@@ -49,7 +49,7 @@ public class SignManager {
 
         Sign s = (Sign) b.getState();
         String online = info.isOnline() ? ChatColor.GREEN.toString() : ChatColor.DARK_RED.toString();
-        String players = online + info.getOnlinePlayers() + "/" + info.getMaxPlayers() + " Players";
+        String players = online + info.getOnlinePlayers() + "/" + info.getMaxPlayers();
 
         s.setLine(0, info.getDisplayName());
         s.setLine(1, "");

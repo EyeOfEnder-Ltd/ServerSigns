@@ -18,7 +18,7 @@ public class ServerInfo {
 
     public ServerInfo(String name, String displayName, InetSocketAddress address) {
         this.name = name;
-        this.displayName = displayName;
+        this.displayName = ChatColor.translateAlternateColorCodes('&', displayName);
         this.address = address;
 
         setOnline(false);
