@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -23,7 +22,6 @@ import com.google.common.collect.Maps;
 
 public class SignManager {
 
-    private static final String JOIN_PREFIX = ChatColor.GOLD + "< " + ChatColor.BLUE + "Join" + ChatColor.GOLD + " > " + ChatColor.RESET;
     private static FileConfiguration config = null;
     private static File configFile = null;
     private static Map<String, String> signs = Maps.newHashMap();
@@ -70,9 +68,6 @@ public class SignManager {
             Bukkit.getLogger().info("You'll never see me!");
         }
         player.sendPluginMessage(ServerSigns.getInstance(), "BungeeCord", b.toByteArray());
-
-        String message = JOIN_PREFIX + player.getDisplayName() + "&7 joined " + info.getDisplayName() + "&7.";
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     public static void updateSigns() {
