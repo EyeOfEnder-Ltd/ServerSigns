@@ -5,7 +5,7 @@
 	<name>ServerSigns</name>
 	<groupId>com.eyeofender</groupId>
 	<artifactId>serversigns</artifactId>
-	<version>1.5.2</version>
+	<version>1.6.0</version>
 	<url>https://github.com/EyeOfEnder-Ltd/ServerSigns</url>
 	<inceptionYear>2013</inceptionYear>
 	<description>Server teleport signs.</description>

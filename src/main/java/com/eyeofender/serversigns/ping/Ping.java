@@ -6,18 +6,16 @@ import org.bukkit.Bukkit;
 
 import com.eyeofender.serversigns.ServerSigns;
 import com.eyeofender.serversigns.manager.SignManager;
-import com.eyeofender.serversigns.ping.MCPing17.Players;
-import com.eyeofender.serversigns.ping.MCPing17.StatusResponse;
 
 public class Ping {
 
     private ServerSigns plugin;
-    private MCPing17 ping;
+    private MCPing ping;
     private boolean pinging;
 
     public Ping(ServerSigns plugin) {
         this.plugin = plugin;
-        this.ping = new MCPing17();
+        this.ping = new MCPing16();
 
         ping.setTimeout(plugin.getConfigManager().getTimeout());
     }
@@ -55,11 +53,9 @@ public class Ping {
             return;
         }
 
-        Players players = responce.getPlayers();
-
         info.setDescription(responce.getDescription());
-        info.setOnlinePlayers(players.getOnline());
-        info.setMaxPlayers(players.getMax());
+        info.setOnlinePlayers(responce.getPlayers().getOnline());
+        info.setMaxPlayers(responce.getPlayers().getMax());
         info.generateLines();
     }
 
