@@ -1,4 +1,4 @@
-package com.eyeofender.serversigns.ping;
+package com.eyeofender.serversigns.ping.minecraft;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
+import com.eyeofender.serversigns.ping.StatusResponse;
 import com.eyeofender.serversigns.ping.StatusResponse.Players;
 import com.eyeofender.serversigns.ping.StatusResponse.Version;
 
@@ -72,7 +73,7 @@ public class MCPing16 extends MCPing {
         Version version = response.new Version();
 
         if (string.startsWith("§")) {
-            String[] data = string.split("\0");
+            String[] data = string.split("\u0000");
 
             version.setProtocol(data[1]);
             version.setName(data[2]);

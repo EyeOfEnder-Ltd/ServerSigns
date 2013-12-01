@@ -1,4 +1,4 @@
-package com.eyeofender.serversigns.ping;
+package com.eyeofender.serversigns.ping.minecraft;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import com.eyeofender.serversigns.ping.StatusResponse;
 import com.google.gson.Gson;
 
 public class MCPing17 extends MCPing {

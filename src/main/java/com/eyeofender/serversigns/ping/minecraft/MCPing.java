@@ -1,7 +1,9 @@
-package com.eyeofender.serversigns.ping;
+package com.eyeofender.serversigns.ping.minecraft;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+
+import com.eyeofender.serversigns.ping.StatusResponse;
 
 public abstract class MCPing {
 

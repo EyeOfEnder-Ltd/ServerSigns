@@ -68,9 +68,20 @@ public class ConfigManager {
         return servers;
     }
 
+    public void setServers(List<ServerInfo> servers) {
+        this.servers = servers;
+    }
+
     public ServerInfo getServer(String name) {
         for (ServerInfo info : servers) {
             if (info.getName().equalsIgnoreCase(name)) return info;
+        }
+        return null;
+    }
+
+    public ServerInfo getServerFromDisplay(String displayName) {
+        for (ServerInfo info : servers) {
+            if (info.getDisplayName().equalsIgnoreCase(displayName)) return info;
         }
         return null;
     }

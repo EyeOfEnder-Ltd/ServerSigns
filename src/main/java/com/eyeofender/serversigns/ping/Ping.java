@@ -6,6 +6,8 @@ import org.bukkit.Bukkit;
 
 import com.eyeofender.serversigns.ServerSigns;
 import com.eyeofender.serversigns.manager.SignManager;
+import com.eyeofender.serversigns.ping.minecraft.MCPing;
+import com.eyeofender.serversigns.ping.minecraft.MCPing16;
 
 public class Ping {
 
@@ -42,20 +44,21 @@ public class Ping {
     }
 
     public void ping(ServerInfo info) {
-        StatusResponse responce;
+        StatusResponse response;
         ping.setAddress(info.getAddress());
 
         try {
-            responce = ping.fetchData();
-        } catch (IOException e1) {
+            response = ping.fetchData();
+        } catch (IOException ex) {
             info.setOnline(false);
-            plugin.getLogger().warning("Failed to ping " + info.getName() + "!");
+            plugin.getLogger().warning("Failed to ping " + info.getName() + "!  " + ex.getMessage());
             return;
         }
 
-        info.setDescription(responce.getDescription());
-        info.setOnlinePlayers(responce.getPlayers().getOnline());
-        info.setMaxPlayers(responce.getPlayers().getMax());
+        info.setOnline(true);
+        info.setDescription(response.getDescription());
+        info.setOnlinePlayers(response.getPlayers().getOnline());
+        info.setMaxPlayers(response.getPlayers().getMax());
         info.generateLines();
     }
 

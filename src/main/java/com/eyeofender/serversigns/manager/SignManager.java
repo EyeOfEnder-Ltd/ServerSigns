@@ -4,7 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -18,45 +20,64 @@ import org.bukkit.entity.Player;
 
 import com.eyeofender.serversigns.ServerSigns;
 import com.eyeofender.serversigns.ping.ServerInfo;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class SignManager {
 
     private static FileConfiguration config = null;
     private static File configFile = null;
-    private static Map<String, String> signs = Maps.newHashMap();
+    private static Map<String, List<String>> signs = Maps.newHashMap();
 
     private SignManager() {
     }
 
     public static void saveSign(Location location, String server) {
-        signs.put(parseLocation(location), server);
+        List<String> locations = signs.get(server);
+        if (locations == null) locations = Lists.newArrayList();
+        locations.add(parseLocation(location));
+        signs.put(server, locations);
     }
 
-    public static void removeSign(Location location) {
-        signs.remove(parseLocation(location));
+    public static void removeSign(Location location, String server) {
+        List<String> locations = signs.get(server);
+        if (locations == null) return;
+        locations.remove(parseLocation(location));
+        signs.put(server, locations);
     }
 
-    public static void updateSign(Location location) {
-        ServerInfo info = ServerSigns.getInstance().getConfigManager().getServer(signs.get(parseLocation(location)));
-        if (info == null) return;
+    public static void updateSigns() {
+        for (ServerInfo info : ServerSigns.getInstance().getConfigManager().getServers()) {
+            updateSigns(info);
+        }
+    }
 
-        if (!location.getWorld().getChunkAt(location).isLoaded()) return;
-        Block b = location.getBlock();
-        if (!(b.getState() instanceof Sign)) return;
+    public static void updateSigns(ServerInfo info) {
+        List<String> locations = signs.get(info.getName());
+        if (locations == null || locations.isEmpty()) return;
 
-        Sign s = (Sign) b.getState();
+        for (String loc : locations) {
+            Location location = parseLocation(loc);
+            if (!location.getWorld().getChunkAt(location).isLoaded()) return;
+            Block b = location.getBlock();
+            if (!(b.getState() instanceof Sign)) return;
 
-        s.setLine(0, info.getDisplayName());
-        s.setLine(1, "");
-        s.setLine(2, info.getThirdLine());
-        s.setLine(3, info.getFourthLine());
+            Sign s = (Sign) b.getState();
 
-        s.update();
+            s.setLine(0, info.getFirstLine());
+            s.setLine(1, info.getSecondLine());
+            s.setLine(2, info.getThirdLine());
+            s.setLine(3, info.getFourthLine());
+            s.update();
+        }
     }
 
     public static void connect(Location location, Player player) {
-        ServerInfo info = ServerSigns.getInstance().getConfigManager().getServer(signs.get(parseLocation(location)));
+        Block block = location.getBlock();
+        if (!(block.getState() instanceof Sign)) return;
+        String name = ((Sign) block.getState()).getLine(0);
+
+        ServerInfo info = ServerSigns.getInstance().getConfigManager().getServerFromDisplay(name);
         if (info == null) return;
 
         ByteArrayOutputStream b = new ByteArrayOutputStream();
@@ -70,15 +91,6 @@ public class SignManager {
         player.sendPluginMessage(ServerSigns.getInstance(), "BungeeCord", b.toByteArray());
     }
 
-    public static void updateSigns() {
-        ConfigurationSection section = getConfig().getConfigurationSection("signs");
-        if (section == null) return;
-
-        for (String location : signs.keySet()) {
-            updateSign(parseLocation(location));
-        }
-    }
-
     public static void reloadConfig() {
         if (configFile == null) configFile = new File(ServerSigns.getInstance().getDataFolder(), "signs.dat");
         config = YamlConfiguration.loadConfiguration(configFile);
@@ -87,10 +99,10 @@ public class SignManager {
         ConfigurationSection section = config.getConfigurationSection("signs");
         if (section == null) return;
 
-        for (String location : section.getKeys(false)) {
-            String server = config.getString(location);
-            if (server == null) continue;
-            signs.put(location, server);
+        for (String server : section.getKeys(false)) {
+            List<String> locations = config.getStringList("signs." + server);
+            if (locations == null || locations.isEmpty()) continue;
+            signs.put(server, locations);
         }
     }
 
@@ -102,7 +114,9 @@ public class SignManager {
     public static void saveConfig() {
         if (config == null || configFile == null) return;
 
-        config.createSection("signs", signs);
+        for (Entry<String, List<String>> entry : signs.entrySet()) {
+            config.set("signs." + entry.getKey(), entry.getValue());
+        }
 
         try {
             getConfig().save(configFile);

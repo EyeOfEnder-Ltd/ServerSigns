@@ -28,8 +28,13 @@ class PlayerListener implements Listener {
     @EventHandler
     private void onSignChange(SignChangeEvent e) {
         if (e.getLine(0).equalsIgnoreCase("[Server]") && e.getPlayer().hasPermission("serversigns.create")) {
-            SignManager.saveSign(e.getBlock().getLocation(), e.getLine(1));
-            e.getPlayer().sendMessage(ChatColor.GREEN + "Sign created.");
+            String server = e.getLine(1);
+            if (plugin.getConfigManager().getServer(server) != null) {
+                SignManager.saveSign(e.getBlock().getLocation(), e.getLine(1));
+                e.getPlayer().sendMessage(ChatColor.GREEN + "Sign created.");
+            } else {
+                e.getPlayer().sendMessage(ChatColor.RED + "Unknown server!");
+            }
 
         } else {
             if (e.isCancelled()) return;
@@ -45,7 +50,7 @@ class PlayerListener implements Listener {
         if (e.getBlock().getState() instanceof Sign) {
             if (!e.getPlayer().hasPermission("serversigns.destroy")) e.setCancelled(true);
 
-            SignManager.removeSign(e.getBlock().getLocation());
+            SignManager.removeSign(e.getBlock().getLocation(), plugin.getConfigManager().getServerFromDisplay(((Sign) e.getBlock().getState()).getLine(0)).getName());
             e.getPlayer().sendMessage(ChatColor.GREEN + "Sign destroyed.");
         }
     }

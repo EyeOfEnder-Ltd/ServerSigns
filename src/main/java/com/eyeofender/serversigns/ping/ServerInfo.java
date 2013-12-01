@@ -5,8 +5,6 @@ import java.net.InetSocketAddress;
 import org.bukkit.ChatColor;
 
 public class ServerInfo {
-    private static final String OFFLINE = ChatColor.DARK_RED + "Offline";
-
     private final String name;
     private final String displayName;
     private final InetSocketAddress address;
@@ -16,6 +14,8 @@ public class ServerInfo {
     private int maxPlayers;
     private String description;
 
+    private String firstLine;
+    private String secondLine;
     private String thirdLine;
     private String fourthLine;
 
@@ -23,6 +23,11 @@ public class ServerInfo {
         this.name = name;
         this.displayName = ChatColor.translateAlternateColorCodes('&', displayName);
         this.address = address;
+
+        this.firstLine = getDisplayName();
+        this.secondLine = "";
+        this.thirdLine = "";
+        this.fourthLine = "";
 
         setOnline(false);
     }
@@ -37,7 +42,6 @@ public class ServerInfo {
         if (!online) {
             setOnlinePlayers(0);
             setMaxPlayers(0);
-            setDescription(OFFLINE);
             generateLines();
         }
     }
@@ -66,10 +70,6 @@ public class ServerInfo {
         this.description = description;
     }
 
-    public static String getOffline() {
-        return OFFLINE;
-    }
-
     public String getName() {
         return name;
     }
@@ -83,18 +83,29 @@ public class ServerInfo {
     }
 
     public void generateLines() {
-        thirdLine = "";
-        fourthLine = description.split(" |")[0];
-
         if (online) {
-            if (onlinePlayers == 0) {
-                thirdLine = ChatColor.GREEN + "Empty";
+            if (onlinePlayers == 1) {
+                fourthLine = ChatColor.GREEN + "" + onlinePlayers + " Player";
             } else if (onlinePlayers == maxPlayers) {
-                thirdLine = ChatColor.DARK_RED + "Full";
+                fourthLine = ChatColor.DARK_RED + "Full";
             } else {
-                thirdLine = ChatColor.GREEN + "" + onlinePlayers + " Players";
+                String colour = onlinePlayers >= maxPlayers - 2 ? ChatColor.YELLOW.toString() : ChatColor.GREEN.toString();
+                fourthLine = colour + onlinePlayers + " Players";
             }
+
+            thirdLine = description;
+        } else {
+            thirdLine = ChatColor.DARK_RED + "Offline";
+            fourthLine = "";
         }
+    }
+
+    public String getFirstLine() {
+        return firstLine;
+    }
+
+    public String getSecondLine() {
+        return secondLine;
     }
 
     public String getThirdLine() {
