@@ -36,7 +36,7 @@ public class Ping {
         pinging = true;
 
         for (ServerInfo info : plugin.getConfigManager().getServers()) {
-            ping(info);
+            if (SignManager.hasSign(info)) ping(info);
         }
 
         SignManager.updateSigns();

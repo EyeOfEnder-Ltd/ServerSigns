@@ -125,6 +125,11 @@ public class SignManager {
         }
     }
 
+    public static boolean hasSign(ServerInfo info) {
+        List<String> locations = signs.get(info);
+        return locations != null && !locations.isEmpty();
+    }
+
     private static String parseLocation(Location loc) {
         return loc.getWorld().getName() + "," + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ();
     }
