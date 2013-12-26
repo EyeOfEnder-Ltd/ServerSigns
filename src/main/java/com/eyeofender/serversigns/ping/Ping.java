@@ -12,10 +12,14 @@ import com.eyeofender.serversigns.ping.minecraft.MCPing16;
 public class Ping {
 
     private ServerSigns plugin;
+    private MCPing ping;
     private boolean pinging;
 
     public Ping(ServerSigns plugin) {
         this.plugin = plugin;
+        this.ping = new MCPing16();
+
+        ping.setTimeout(plugin.getConfigManager().getTimeout());
     }
 
     public void startPingTask() {
@@ -40,40 +44,22 @@ public class Ping {
     }
 
     public void ping(ServerInfo info) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, new PingRunnable(info));
-    }
+        StatusResponse response;
+        ping.setAddress(info.getAddress());
 
-    private class PingRunnable implements Runnable {
-
-        private ServerInfo info;
-
-        public PingRunnable(ServerInfo info) {
-            this.info = info;
+        try {
+            response = ping.fetchData();
+        } catch (IOException ex) {
+            info.setOnline(false);
+            plugin.getLogger().warning("Failed to ping " + info.getName() + "!  " + ex.getMessage());
+            return;
         }
 
-        @Override
-        public void run() {
-            StatusResponse response;
-            MCPing ping = new MCPing16();
-            ping.setTimeout(plugin.getConfigManager().getTimeout());
-
-            ping.setAddress(info.getAddress());
-
-            try {
-                response = ping.fetchData();
-            } catch (IOException ex) {
-                info.setOnline(false);
-                plugin.getLogger().warning("Failed to ping " + info.getName() + "!  " + ex.getMessage());
-                return;
-            }
-
-            info.setOnline(true);
-            info.setDescription(response.getDescription());
-            info.setOnlinePlayers(response.getPlayers().getOnline());
-            info.setMaxPlayers(response.getPlayers().getMax());
-            info.generateLines();
-        }
-
+        info.setOnline(true);
+        info.setDescription(response.getDescription());
+        info.setOnlinePlayers(response.getPlayers().getOnline());
+        info.setMaxPlayers(response.getPlayers().getMax());
+        info.generateLines();
     }
 
 }
