@@ -1,6 +1,8 @@
 package com.eyeofender.serversigns.ping;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import org.bukkit.Bukkit;
 
@@ -13,11 +15,12 @@ public class Ping {
 
     private ServerSigns plugin;
     private MCPing ping;
-    private boolean pinging;
+    private Queue<ServerInfo> queue;
 
     public Ping(ServerSigns plugin) {
         this.plugin = plugin;
         this.ping = new MCPing16();
+        this.queue = new LinkedList<ServerInfo>();
 
         ping.setTimeout(plugin.getConfigManager().getTimeout());
     }
@@ -26,24 +29,17 @@ public class Ping {
         Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                pingAll();
+                if (queue.isEmpty()) {
+                    queue.addAll(plugin.getConfigManager().getServers());
+                }
+
+                ping(queue.poll());
             }
-        }, 20, plugin.getConfigManager().getInterval() * 20);
-    }
-
-    public void pingAll() {
-        if (pinging) return;
-        pinging = true;
-
-        for (ServerInfo info : plugin.getConfigManager().getServers()) {
-            if (SignManager.hasSign(info)) ping(info);
-        }
-
-        SignManager.updateSigns();
-        pinging = false;
+        }, 10, 10);
     }
 
     public void ping(ServerInfo info) {
+        if (info == null) return;
         StatusResponse response;
         ping.setAddress(info.getAddress());
 
@@ -60,6 +56,8 @@ public class Ping {
         info.setOnlinePlayers(response.getPlayers().getOnline());
         info.setMaxPlayers(response.getPlayers().getMax());
         info.generateLines();
+
+        SignManager.updateSigns(info);
     }
 
 }
