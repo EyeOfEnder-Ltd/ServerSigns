@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 import com.eyeofender.serversigns.ServerSigns;
 import com.eyeofender.serversigns.manager.SignManager;
 import com.eyeofender.serversigns.ping.minecraft.MCPing;
-import com.eyeofender.serversigns.ping.minecraft.MCPing16;
+import com.eyeofender.serversigns.ping.minecraft.MCPing17;
 
 public class Ping {
 
@@ -19,7 +19,7 @@ public class Ping {
 
     public Ping(ServerSigns plugin) {
         this.plugin = plugin;
-        this.ping = new MCPing16();
+        this.ping = new MCPing17();
         this.queue = new LinkedList<ServerInfo>();
 
         ping.setTimeout(plugin.getConfigManager().getTimeout());
@@ -47,7 +47,7 @@ public class Ping {
             response = ping.fetchData();
         } catch (IOException ex) {
             info.setOnline(false);
-            plugin.getLogger().warning("Failed to ping " + info.getName() + "!  " + ex.getMessage());
+            SignManager.updateSigns(info);
             return;
         }
 
