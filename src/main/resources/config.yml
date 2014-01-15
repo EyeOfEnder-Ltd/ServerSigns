@@ -6,52 +6,124 @@ servers:
     hub:
         displayname: '&5Hub'
         hostname: 'localhost'
-        port: 20000
+        port: 10000
     ag1:
         displayname: '&1AG 1'
         hostname: 'localhost'
-        port: 20001
+        port: 10001
     ag2:
         displayname: '&1AG 2'
         hostname: 'localhost'
-        port: 20002
+        port: 10002
     ag3:
         displayname: '&1AG 3'
         hostname: 'localhost'
-        port: 20003
+        port: 10003
     ag4:
         displayname: '&1AG 4'
         hostname: 'localhost'
-        port: 20004
+        port: 10004
     ag5:
         displayname: '&1AG 5'
         hostname: 'localhost'
-        port: 20005
+        port: 10005
     ag6:
         displayname: '&1AG 6'
         hostname: 'localhost'
-        port: 20006
+        port: 10006
     ag7:
         displayname: '&1AG 7'
         hostname: 'localhost'
-        port: 20007
+        port: 10007
     ag8:
         displayname: '&1AG 8'
         hostname: 'localhost'
-        port: 20008
+        port: 10008
     ag9:
         displayname: '&1AG 9'
         hostname: 'localhost'
-        port: 20009
+        port: 10009
     ag10:
         displayname: '&1AG 10'
         hostname: 'localhost'
-        port: 20010
+        port: 10010
     ag11:
         displayname: '&1AG 11'
         hostname: 'localhost'
-        port: 20011
+        port: 10011
     ag12:
         displayname: '&1AG 12'
         hostname: 'localhost'
+        port: 10012
+    sg1:
+        displayname: '&1SG 1'
+        hostname: 'localhost'
+        port: 20001
+    sg2:
+        displayname: '&1SG 2'
+        hostname: 'localhost'
+        port: 20002
+    sg3:
+        displayname: '&1SG 3'
+        hostname: 'localhost'
+        port: 20003
+    sg4:
+        displayname: '&1SG 4'
+        hostname: 'localhost'
+        port: 20004
+    sg5:
+        displayname: '&1SG 5'
+        hostname: 'localhost'
+        port: 20005
+    sg6:
+        displayname: '&1SG 6'
+        hostname: 'localhost'
+        port: 20006
+    sg7:
+        displayname: '&1SG 7'
+        hostname: 'localhost'
+        port: 20007
+    sg8:
+        displayname: '&1SG 8'
+        hostname: 'localhost'
+        port: 20008
+    sg9:
+        displayname: '&1SG 9'
+        hostname: 'localhost'
+        port: 20009
+    sg10:
+        displayname: '&1SG 10'
+        hostname: 'localhost'
+        port: 20010
+    sg11:
+        displayname: '&1SG 11'
+        hostname: 'localhost'
+        port: 20011
+    sg12:
+        displayname: '&1SG 12'
+        hostname: 'localhost'
         port: 20012
+    db1:
+        displayname: '&1DB 1'
+        hostname: 'localhost'
+        port: 40001
+    db2:
+        displayname: '&1DB 2'
+        hostname: 'localhost'
+        port: 40002
+    db3:
+        displayname: '&1DB 3'
+        hostname: 'localhost'
+        port: 40003
+    db4:
+        displayname: '&1DB 4'
+        hostname: 'localhost'
+        port: 40004
+    db5:
+        displayname: '&1DB 5'
+        hostname: 'localhost'
+        port: 40005
+    db6:
+        displayname: '&1DB 6'
+        hostname: 'localhost'
+        port: 40006

@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 import com.eyeofender.serversigns.ServerSigns;
 import com.eyeofender.serversigns.manager.SignManager;
 import com.eyeofender.serversigns.ping.minecraft.MCPing;
-import com.eyeofender.serversigns.ping.minecraft.MCPing17;
+import com.eyeofender.serversigns.ping.minecraft.MCPing16;
 
 public class Ping {
 
@@ -19,7 +19,7 @@ public class Ping {
 
     public Ping(ServerSigns plugin) {
         this.plugin = plugin;
-        this.ping = new MCPing17();
+        this.ping = new MCPing16();
         this.queue = new LinkedList<ServerInfo>();
 
         ping.setTimeout(plugin.getConfigManager().getTimeout());
